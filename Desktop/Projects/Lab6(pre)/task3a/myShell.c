@@ -12,20 +12,19 @@
 #include <fcntl.h>
 #define ARR_LENGTH 10
 
-void addCommand(char* command,char* commandHistory[ARR_LENGTH])
+
+int getNumOfElements(char* commandHistory[ARR_LENGTH])
 {
     int size=0;
-    int i=0;
-    int num = ARR_LENGTH-1;
-    if(commandHistory[num] != NULL)
-    {
-        fprintf(stderr,"can't add more commands");
-        _exit(1);
-    }
-    i=0;
-    while(commandHistory[i] != NULL)
-        i++;
-    commandHistory[i] = command;
+    while(commandHistory[size] != NULL && size < 10)
+        size++;
+    return size;
+}
+void addCommand(char* command,char* commandHistory[ARR_LENGTH])
+{
+    int size=getNumOfElements(commandHistory);
+    free(commandHistory[size%10]);
+    commandHistory[size%10] = command;
 }
 
 void freeCommandsHistory(char* commandsHistory[ARR_LENGTH])
